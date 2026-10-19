@@ -21,15 +21,16 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+     
       - name: Install Android SDK command-line tools
         run: |
-          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          mkdir -p "$RUNNER_TEMP/android-sdk-tools"
           cd "$RUNNER_TEMP"
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-12266719_latest.zip -O android-tools.zip
-          mkdir -p android-tools
-          unzip -q android-tools.zip -d android-tools
+          unzip -q android-tools.zip -d android-sdk-tools
+          rm -rf "$ANDROID_HOME/cmdline-tools/latest"
           mkdir -p "$ANDROID_HOME/cmdline-tools/latest"
-          mv android-tools/cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/"
+          mv android-sdk-tools/cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/"
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
